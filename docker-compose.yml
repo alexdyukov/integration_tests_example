@@ -1,0 +1,34 @@
+version: '2.4'
+services:
+        tests:
+                build: .
+                depends_on:
+                        postgres:
+                            condition: service_healthy
+                        rabbitmq:
+                            condition: service_healthy
+                volumes:
+                        - ./:/tests
+                working_dir: /tests
+                command: pytest mytest1 --cache-clear --html=report.html
+        postgres:       
+                image: postgres
+                environment:
+                        POSTGRES_PASSWORD: postgres
+                ports:
+                        - '5432:5432'
+                healthcheck:
+                        test: ["CMD", "pg_isready", "-U", "postgres"]
+                        interval: 10s
+                        timeout: 5s
+                        retries: 5
+        rabbitmq:
+                image: rabbitmq:management
+                ports:
+                        - '5672:5672'
+                        - '15672:15672'
+                healthcheck:
+                        test: ["CMD", "rabbitmq-diagnostics",  "-q", "check_running"]
+                        interval: 10s
+                        timeout: 5s
+                        retries: 5
