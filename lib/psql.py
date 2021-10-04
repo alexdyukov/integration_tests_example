@@ -5,7 +5,7 @@ from psycopg2 import pool
 
 
 def create_pool(url, conn_limit):
-    pool = psycopg2.pool.SimpleConnectionPool(
+    pool = psycopg2.pool.ThreadedConnectionPool(
             minconn = 1,
             maxconn = conn_limit,
             dsn = url

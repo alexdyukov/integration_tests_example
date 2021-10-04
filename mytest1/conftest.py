@@ -12,7 +12,7 @@ def mydb1():
             conn_limit = _get_psql_conn_limit()
     )
     yield p
-    p.close()
+    p.closeall()
 
 
 @pytest.fixture(scope='session')
@@ -26,7 +26,7 @@ def rmq_root():
 
 def _get_psql_url():
     # TODO parsing env
-    return 'postgresql://postgres:postgres@localhost:5432/postgres'
+    return 'postgresql://postgres:postgres@postgres:5432/postgres'
 
 
 def _get_psql_conn_limit():
@@ -36,4 +36,4 @@ def _get_psql_conn_limit():
 
 def _get_rmq_root_url():
     # TODO parsing env
-    return 'amqp://guest:guest@localhost:5672/%2F'
+    return 'amqp://guest:guest@rabbitmq:5672/%2F'
