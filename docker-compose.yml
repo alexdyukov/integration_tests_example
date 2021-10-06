@@ -10,7 +10,9 @@ services:
                 volumes:
                         - ./:/tests
                 working_dir: /tests
-                command: pytest mytest1 --cache-clear --html=report.html
+                environment:
+                        - PYTHONDONTWRITEBYTECODE=1
+                command: pytest mytest1 -p no:cacheprovider --html=report.html --self-contained-html
         postgres:       
                 image: postgres
                 environment:

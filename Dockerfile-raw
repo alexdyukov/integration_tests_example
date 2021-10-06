@@ -1,0 +1,3 @@
+FROM python:slim
+
+RUN pip install -r psycopg2-binary pika pytest pytest-html
